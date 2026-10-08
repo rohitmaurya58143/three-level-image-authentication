@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="page">
+
+        <a href="/" class="home-link">← Back</a>
+
+        <div class="panel">
+
+            <h1>Create Account</h1>
+            <p class="subtitle">Set up your password and image sequence.</p>
+
+            <form action="/register" method="POST">
+
+                <label>Username</label>
+                <input type="text" name="username" required>
+
+                <label>Email</label>
+                <input type="email" name="email" required>
+
+                <label>Password</label>
+                <div class="password-wrapper">
+                    <input type="password" name="password" id="password" required>
+                    <button type="button" class="toggle-password" onclick="togglePassword('password', this)" aria-label="Show password">
+                        <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                            <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.6 21.6 0 0 1 5.06-6.06M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a21.6 21.6 0 0 1-2.61 3.81M14.12 14.12a3 3 0 1 1-4.24-4.24"></path>
+                            <line x1="1" y1="1" x2="23" y2="23"></line>
+                        </svg>
+                    </button>
+                </div>
+
+                <label>Image Password</label>
+                <input
+                    type="text"
+                    name="image_password"
+                    placeholder="Example: image4,image3,image2,image1"
+                    required
+                >
+
+                <button type="submit">Register</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script>
+        function togglePassword(id, btn) {
+            const input = document.getElementById(id);
+            const eye = btn.querySelector(".icon-eye");
+            const eyeOff = btn.querySelector(".icon-eye-off");
+            if (input.type === "password") {
+                input.type = "text";
+                eye.style.display = "none";
+                eyeOff.style.display = "block";
+                btn.setAttribute("aria-label", "Hide password");
+            } else {
+                input.type = "password";
+                eye.style.display = "block";
+                eyeOff.style.display = "none";
+                btn.setAttribute("aria-label", "Show password");
+            }
+        }
+    </script>
+<script src="{{ url_for('static', filename='ambient.js') }}"></script>
+</body>
+</html>

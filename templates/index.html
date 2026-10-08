@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Three Level Authentication</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="page hero">
+
+        <div class="emblem"></div>
+
+        <h1>Three Level Authentication</h1>
+        <p>Password, image sequence, and one-time code — three tumblers, one door.</p>
+
+        <div class="hero-actions">
+            <a href="/login"><button class="btn-primary">Login</button></a>
+            <a href="/register"><button class="btn-outline">Register</button></a>
+        </div>
+
+    </div>
+<script src="{{ url_for('static', filename='ambient.js') }}"></script>
+</body>
+</html>

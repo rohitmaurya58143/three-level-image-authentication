@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="page">
+
+        <a href="/" class="home-link">← Home</a>
+
+        <div class="panel">
+
+            <div class="tumblers">
+                <div class="tumbler done">✓</div>
+                <div class="tumbler-line done"></div>
+                <div class="tumbler active">2</div>
+                <div class="tumbler-line"></div>
+                <div class="tumbler">3</div>
+            </div>
+
+            <h1>Level 2 — Image Sequence</h1>
+            <p class="subtitle">Select your 4 images in order.</p>
+
+            <div id="image-grid" class="image-grid"></div>
+
+            <p id="selected">Selected: </p>
+
+            <div class="btn-row">
+                <button type="button" class="btn-secondary" onclick="removeLastImage()">Undo</button>
+                <button type="button" class="btn-secondary" onclick="resetSelection()">Reset</button>
+            </div>
+
+            <form action="/image-login" method="POST">
+                <input type="hidden" name="username" value="{{ username }}">
+                <input type="hidden" id="image_password" name="image_password" value="">
+                <button type="submit">Continue</button>
+            </form>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        const imagePool = {
+            image1: "🚗",
+            image2: "✈️",
+            image3: "🚢",
+            image4: "🏍️"
+        };
+
+        let selectedImages = [];
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function renderGrid() {
+
+            const ids = shuffle(Object.keys(imagePool));
+
+            const grid = document.getElementById("image-grid");
+
+            grid.innerHTML = "";
+
+            ids.forEach(id => {
+
+                const btn = document.createElement("button");
+
+                btn.type = "button";
+                btn.className = "image-tile";
+                btn.innerHTML = imagePool[id] +
+                    "<span class='tile-label'>" + id + "</span>";
+
+                btn.onclick = () => selectImage(id, btn);
+
+                grid.appendChild(btn);
+            });
+        }
+
+        function selectImage(image, btn) {
+
+            if (selectedImages.length >= 4) {
+                alert("You can select only 4 images.");
+                return;
+            }
+
+            selectedImages.push(image);
+            btn.classList.add("selected");
+            btn.disabled = true;
+
+            updateSelection();
+        }
+
+        function removeLastImage() {
+
+            if (selectedImages.length > 0) {
+                selectedImages.pop();
+                renderGrid();
+                reapplySelectedState();
+                updateSelection();
+            }
+        }
+
+        function resetSelection() {
+            selectedImages = [];
+            renderGrid();
+            updateSelection();
+        }
+
+        function reapplySelectedState() {
+            const tiles = document.querySelectorAll(".image-tile");
+            tiles.forEach(tile => {
+                const id = tile.querySelector(".tile-label").textContent;
+                if (selectedImages.includes(id)) {
+                    tile.classList.add("selected");
+                    tile.disabled = true;
+                }
+            });
+        }
+
+        function updateSelection() {
+            document.getElementById("selected").innerText =
+                "Selected: " + selectedImages.join(",");
+            document.getElementById("image_password").value =
+                selectedImages.join(",");
+        }
+
+        renderGrid();
+
+    </script>
+<script src="{{ url_for('static', filename='ambient.js') }}"></script>
+</body>
+</html>

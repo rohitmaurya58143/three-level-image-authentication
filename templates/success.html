@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Access Granted</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="page">
+
+        <div class="panel success-panel">
+
+            <div class="tumblers">
+                <div class="tumbler done">✓</div>
+                <div class="tumbler-line done"></div>
+                <div class="tumbler done">✓</div>
+                <div class="tumbler-line done"></div>
+                <div class="tumbler done">✓</div>
+            </div>
+
+            <div class="scan-ring">
+                <div class="ring"></div>
+                <div class="ring-progress"></div>
+                <div class="scan-check">✓</div>
+            </div>
+
+            <h1 class="success-title">Access Granted</h1>
+            <p class="subtitle success-subtitle">
+                Welcome, <strong>{{ username }}</strong>. All three authentication levels passed.
+            </p>
+
+            <a href="/" class="btn-secondary success-home">Back to Home</a>
+
+        </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='ambient.js') }}"></script>
+
+</body>
+</html>

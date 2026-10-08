@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="page">
+
+        <a href="/" class="home-link">← Back</a>
+
+        <div class="panel">
+
+            <div class="tumblers">
+                <div class="tumbler done">✓</div>
+                <div class="tumbler-line done"></div>
+                <div class="tumbler done">✓</div>
+                <div class="tumbler-line done"></div>
+                <div class="tumbler active">3</div>
+            </div>
+
+            <h1>Level 3 — One-Time Code</h1>
+            <p class="subtitle">A 6-digit code was sent to your email. It expires in 10 minutes.</p>
+
+            {% if error %}
+            <div class="alert-error">{{ error }}</div>
+            {% endif %}
+
+            <form action="/verify-otp" method="POST">
+                <input type="hidden" name="username" value="{{ username }}">
+                <label>Enter code</label>
+                <input type="text" name="otp" required>
+                <button type="submit">Verify</button>
+            </form>
+
+            <form action="/resend-otp" method="POST">
+                <input type="hidden" name="username" value="{{ username }}">
+                <button type="submit" id="resend-btn" class="btn-secondary" disabled>
+                    Resend code (<span id="timer">60</span>s)
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        let seconds = 60;
+        const timerEl = document.getElementById("timer");
+        const btn = document.getElementById("resend-btn");
+
+        const countdown = setInterval(() => {
+            seconds--;
+            if (seconds <= 0) {
+                clearInterval(countdown);
+                btn.disabled = false;
+                btn.innerText = "Resend code";
+            } else {
+                timerEl.innerText = seconds;
+            }
+        }, 1000);
+
+    </script>
+<script src="{{ url_for('static', filename='ambient.js') }}"></script>
+</body>
+</html>
